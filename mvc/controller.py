@@ -35,7 +35,9 @@ class Controller():
         value= args
         name= value[0]
         lastname= value
-        print(name,lastname)
+        print(value , " controller")
+
+    
 if __name__== "__main__":
     root =  Controller()
     

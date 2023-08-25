@@ -34,26 +34,40 @@ class PageOne(tk.Frame):
         
         self.students = self.controller.students
         self._make_all_entrys()
-        # self.controller.get_entrys(self.name.get(), self.last_name.get())
+
+        
+
         def _get_student_(e):
             iid= self.students_list.view.selection()
             value = self.students_list.view.item(iid,'values')
-            print(value)
-
+            # print(value)
+            self.load_entrys(value)
+            self.get_university(value[3])
+            self.uni_entry_menu.config(text=value[3])
+            self.controller.get_entrys(self.name.get(), self.last_name.get(), self.serial_tag.get(), self.university.get())
 
         self.list_frame = tk.Frame(self)
         self.list_frame.pack(padx=10,pady=10,side='bottom')
         self.columns=['Name', 'Last Name', 'AM', 'Department']
         self.students_list = Tableview(self.list_frame, coldata=self.columns, rowdata = self.students, searchable=True, paginated=True)
         self.students_list.pack()
-        # print(self.students_list.view.selection())
-
-
         
+
+
+        self.students_list.view.bind('<<TreeviewSelect>>', _get_student_)
+    
+    
+    def load_entrys(self,values):
+            self.name_entry.delete(0, tk.END)
+            self.name_entry.insert(0, values[0])
+            self.last_name_entry.delete(0,tk.END)
+            self.last_name_entry.insert(0,values[1])
+            self.serial_tag_entry.delete(0, tk.END)
+            self.serial_tag_entry.insert(0,values[2])
+            self.uni_entry.setvar(values[3])
             
         
         
-        self.students_list.view.bind('<<TreeviewSelect>>', _get_student_)
 
         
     def _make_all_entrys(self):
@@ -89,8 +103,11 @@ class PageOne(tk.Frame):
     
     def get_university(self,value):
         self.uni_entry.config(text=value)
-
+        
+        self.university = value
         print(value)
+        
+
     def _make_university_entrys(self):
         self.uni_label = tk.Label(self.entrys_holder, text="Σχολή :")
         self.uni_label.pack(pady=10, padx=10, side='left')
