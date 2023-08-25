@@ -35,13 +35,33 @@ class PageOne(tk.Frame):
         self.students = self.controller.students
         self._make_all_entrys()
         # self.controller.get_entrys(self.name.get(), self.last_name.get())
-    
+        def _get_student_(e):
+            iid= self.students_list.view.selection()
+            value = self.students_list.view.item(iid,'values')
+            print(value)
+
+
+        self.list_frame = tk.Frame(self)
+        self.list_frame.pack(padx=10,pady=10,side='bottom')
+        self.columns=['Name', 'Last Name', 'AM', 'Department']
+        self.students_list = Tableview(self.list_frame, coldata=self.columns, rowdata = self.students, searchable=True, paginated=True)
+        self.students_list.pack()
+        # print(self.students_list.view.selection())
+
+
+        
+            
+        
+        
+        self.students_list.view.bind('<<TreeviewSelect>>', _get_student_)
+
+        
     def _make_all_entrys(self):
         self._make_name_entrys()
         self._make_lastname_entrys()
         self._make_serial_tag_entry()
         self._make_university_entrys()
-        self._makes_students_list(self.students)
+        # self._makes_students_list(self.students)
 
     def _make_name_entrys(self):
         self.name_label = tk.Label(self.entrys_holder, text="Όνομα :")
@@ -89,27 +109,9 @@ class PageOne(tk.Frame):
        
         self.uni_entry['menu'] = self.uni_entry_menu
 
-    def _get_student_(self,e):
-            iid= self.students_list.view.selection()
-            value = self.students_list.view.item(iid,'values')
-            print(value)
+   
 
-    def _makes_students_list(self,students):
+    
         
 
-        self.list_frame = tk.Frame(self)
-        self.list_frame.pack(padx=10,pady=10,side='bottom')
-        self.columns=['Name', 'Last Name', 'AM', 'Department']
-        self.students_list = Tableview(self.list_frame, coldata=self.columns, rowdata = students, searchable=True, paginated=True,stripecolor=('teal', None))
-        self.students_list.pack()
-        print(self.students_list.view)
-
-
         
-            
-        def _get_student_(e):
-            iid= self.students_list.view.selection()
-            value = self.students_list.view.item(iid,'values')
-            print(value)
-        
-        self.students_list.bind('<<TreeviewSelect>>',  _get_student_('TreeviewSelect'))
