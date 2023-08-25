@@ -105,8 +105,9 @@ class PageOne(tk.Frame):
         self.uni_entry.config(text=value)
         
         self.university = value
-        print(value)
+        self.uni_entry_menu
         
+    
 
     def _make_university_entrys(self):
         self.uni_label = tk.Label(self.entrys_holder, text="Σχολή :")
@@ -115,16 +116,20 @@ class PageOne(tk.Frame):
         self.uni_entry = ttk.Menubutton(self.entrys_holder, text= "Επιλέξτε") 
         self.uni_entry.pack(pady=10, padx=10, side='left')
 
-        self.uni_entry_menu= ttk.Menu(self.uni_entry)
+        self.uni_entry_menu= tk.Menu(self.uni_entry)
 
         self.uni_value= tk.StringVar()
+        x=0
         for department in self.deaprtments:
-            self.uni_entry_menu.add_radiobutton(label=department, 
+            self.uni_entry_menu.insert_radiobutton(index=x, label=department, 
                                                 variable=self.uni_value, 
                                                 command= lambda value=department : self.get_university(value))
                                                  # with value = department we dont need to bind
-       
+            x+=1
+        
         self.uni_entry['menu'] = self.uni_entry_menu
+        print(self.uni_entry.state())
+        
 
    
 
