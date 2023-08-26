@@ -25,7 +25,7 @@ class PageOne(tk.Frame):
         label.pack(pady=10, padx=10)
 
         button = ttk.Button(self.entrys_holder, text="Επόμενη σελίδα",
-                            command=lambda: self.controller.go_to_second_page() ) #acts as a onClick event
+                            command=lambda: self.switch_frame() ) #acts as a onClick event
         button.pack(pady=10, padx=10)
         self.name = tk.StringVar()
         self.last_name = tk.StringVar()
@@ -34,8 +34,19 @@ class PageOne(tk.Frame):
         
         self.students = self.controller.students
         self._make_all_entrys()
-        # self.controller.get_entrys(self.name.get(), self.last_name.get())
+        
+        self.selection = self.get_selection
+    def get_selection(self):
+        self.controller.get_entrys(self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get())
+        # print (selection)
+        # return selection
     
+    def switch_frame(self):
+        self.values = self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get()
+        self.controller.arr = self.values
+        self.controller.get_entrys(self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get())
+        self.controller.go_to_second_page(self.values)
+
     def _make_all_entrys(self):
         self._make_name_entrys()
         self._make_lastname_entrys()
@@ -50,7 +61,7 @@ class PageOne(tk.Frame):
         self.name_entry = ttk.Entry(self.entrys_holder, textvariable=self.name) 
         self.name_entry.pack(pady=10, padx=10, side='left')
 
-        self.name_button = ttk.Button(self.entrys_holder, text='print', command=lambda: self.controller.get_entrys(self.name.get(), self.last_name.get()))
+        self.name_button = ttk.Button(self.entrys_holder, text='print', command=lambda: self.get_selection())
         self.name_button.pack(pady=10, padx=10, side='left')
 
     def _make_lastname_entrys(self):
@@ -92,7 +103,7 @@ class PageOne(tk.Frame):
     def _get_student_(self,e):
             iid= self.students_list.view.selection()
             value = self.students_list.view.item(iid,'values')
-            print(value)
+           
 
     def _makes_students_list(self,students):
         
@@ -100,16 +111,31 @@ class PageOne(tk.Frame):
         self.list_frame = tk.Frame(self)
         self.list_frame.pack(padx=10,pady=10,side='bottom')
         self.columns=['Name', 'Last Name', 'AM', 'Department']
-        self.students_list = Tableview(self.list_frame, coldata=self.columns, rowdata = students, searchable=True, paginated=True,stripecolor=('teal', None))
+        self.students_list = Tableview(self.list_frame, coldata=self.columns, rowdata = students, searchable=True, paginated=True)
         self.students_list.pack()
-        print(self.students_list.view)
-
-
-        
+       
             
         def _get_student_(e):
             iid= self.students_list.view.selection()
-            value = self.students_list.view.item(iid,'values')
-            print(value)
+            selction = self.students_list.view.item(iid,'values') # values from the selected student in the list
+            self.clear_entrys(selction)
         
         self.students_list.view.bind('<<TreeviewSelect>>',  _get_student_)
+
+    def clear_entrys(self, selection):
+        self.name_entry.delete(0,tk.END)
+        self.last_name_entry.delete(0,tk.END)
+        self.serial_tag_entry.delete(0,tk.END)
+        
+        """
+        to check the university based on the selected item in the list 
+        we need to set the variable  to the university value of the selected item
+        """
+        self.uni_entry.config(text=selection[3])
+        self.uni_value.set(selection[3])
+        self.name_entry.insert(0, selection[0])
+        self.last_name_entry.insert(0, selection[1])
+        self.serial_tag_entry.insert(0, selection[2])
+        # self.get_selection(selection)
+
+
