@@ -42,10 +42,10 @@ class PageOne(tk.Frame):
         # return selection
     
     def switch_frame(self):
-        self.values = self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get()
-        self.controller.arr = self.values
+        # self.values = self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get()
+        # self.controller.arr = self.values
         self.controller.get_entrys(self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get())
-        self.controller.go_to_second_page(self.values)
+        # self.controller.go_to_second_page(self.values)
 
     def _make_all_entrys(self):
         self._make_name_entrys()

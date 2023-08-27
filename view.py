@@ -8,27 +8,35 @@ class View(tk.Tk):
     def __init__(self, controller):
         tk.Tk.__init__(self)
         self.controller = controller
-        print(self.controller.__class__)
-
+        self.val = None
+        print(self.val)
+        
     def mainFrame(self):
-        container=tk.Frame(self, bg='red')
-        container.pack(side='top')
+        self.container=tk.Frame(self, bg='red')
+        self.container.pack(side='top')
 
-        container.grid_rowconfigure(0,weight=1)
-        container.grid_columnconfigure(0,weight=1)
+        self.container.grid_rowconfigure(0,weight=1)
+        self.container.grid_columnconfigure(0,weight=1)
        
         self.frames={}
-        for F in (StartPage, PageOne, PageTwo, PageThree):
+        # for F in (StartPage, PageOne, PageTwo, PageThree):
        
-            frame = F(container, self.controller)
+        #     frame = F(container, self.controller)
         
-            self.frames[F]= frame
+        #     self.frames[F]= frame
         
-            frame.grid(row=0, column=0, sticky="nsew")
+        #     frame.grid(row=0, column=0, sticky="nsew")
+            
         self.show_frame(StartPage)
+        
         tk.Tk.mainloop(self)
 
     def show_frame(self, cont):
+        frame = cont(self.container, self.controller)
+        
+        self.frames[cont]= frame
+        
+        frame.grid(row=0, column=0, sticky="nsew")
         frame = self.frames[cont]  #select the given frame  
         
         frame.tkraise() #then raise it to the top of stack 
@@ -38,10 +46,13 @@ class View(tk.Tk):
         self.val= 'hello'
         self.controller.print_val(self.val)
         self.controller.change_frame(frame)
-
+    def test(self):
+        self.val = 2
+        print(self.val)
+        return self.val
 
 class StartPage(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, *args):
         #passing the parent in the StartPage like this (tk.Frame(App))
         #its like: frame(App) -> the frame is hosted in the Parent witch is App
         tk.Frame.__init__(self,parent)
@@ -55,6 +66,6 @@ class StartPage(tk.Frame):
         button.pack(pady=10, padx=10)
        
 
-
+    
 
 
