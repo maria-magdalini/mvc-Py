@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from pageOne import PageOne
 from pageTwo import PageTwo
-from thirdPage import PageThree
+from thirdPage import View_Grades
 class View(tk.Tk):
 
     def __init__(self, controller):
@@ -19,7 +19,7 @@ class View(tk.Tk):
         self.container.grid_columnconfigure(0,weight=1)
        
         self.frames={}
-        # for F in (StartPage, PageOne, PageTwo, PageThree):
+        # for F in (StartPage, PageOne, PageTwo, View_Grades):
        
         #     frame = F(container, self.controller)
         
