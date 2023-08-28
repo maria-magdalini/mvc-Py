@@ -31,14 +31,11 @@ class View(tk.Tk):
         
         tk.Tk.mainloop(self)
 
-    def show_frame(self, cont):
-        frame = cont(self.container, self.controller)
-        
-        self.frames[cont]= frame
-        
-        frame.grid(row=0, column=0, sticky="nsew")
-        frame = self.frames[cont]  #select the given frame  
-        
+    def show_frame(self, page):
+        frame = page(self.container, self.controller)
+
+        frame.grid(row=0, column=0, sticky="nsew") # make page expand and visible
+  
         frame.tkraise() #then raise it to the top of stack 
 
     
