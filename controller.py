@@ -1,6 +1,7 @@
 from view import View, StartPage,PageOne,PageTwo,View_Grades
 from model import Model
 from student import Student
+from lectures_view import Add_Lectures
 class Controller():
     def __init__(self):
         self.view = View(self) # pass the Controller and its methods to the View Class
@@ -40,9 +41,13 @@ class Controller():
     def go_to_view_students_grade(self):
         self.view.show_frame(View_Grades)
 
+    def go_to_add_lectures(self):
+        self.view.show_frame(Add_Lectures)
+
     def _get_selected_student(self, *value):
         return value[0]
-        
+
+    
 
 
     def get_entrys(self,*args):

@@ -61,6 +61,9 @@ class StartPage(tk.Frame):
         button = ttk.Button(self, text="Επόμενη σελίδα",
                             command=lambda: controller.go_to_first_page() ) #acts as a onClick event
         button.pack(pady=10, padx=10)
+
+        add_lectures_button = ttk.Button(self, text="Εισαγωγή Μαθημάτων", command= lambda : controller.go_to_add_lectures())
+        add_lectures_button.pack(pady=10, padx=10)
        
 
     
