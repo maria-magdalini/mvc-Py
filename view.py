@@ -45,7 +45,7 @@ class View(tk.Tk):
         self.controller.change_frame(frame)
     def test(self):
         self.val = 2
-        print(self.val)
+        
         return self.val
 
 class StartPage(tk.Frame):

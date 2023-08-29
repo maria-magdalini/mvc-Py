@@ -16,15 +16,15 @@ class PageOne(tk.Frame):
             "Business Administration"
         ]
         tk.Frame.__init__(self,parent)
-
+        
         self.entrys_holder = tk.Frame(self)
-        self.entrys_holder.pack(side='top',fill='both', expand=True)
+        self.entrys_holder.pack(side='top',fill='both', expand=True, pady=30)
 
         self.controller= controller
-        label = tk.Label(self.entrys_holder, text="1")
+        label = tk.Label(self.entrys_holder, text="Διαχείρηση Φοιτητών", font='Helvetica 16 bold')
         label.pack(pady=10, padx=10)
 
-        button = ttk.Button(self.entrys_holder, text="Επόμενη σελίδα",
+        button = ttk.Button(self.entrys_holder, text="Εισαγωγή Βαθμών",
                             command=lambda: self.switch_frame() ) #acts as a onClick event
         button.pack(pady=10, padx=10)
         self.name = tk.StringVar()

@@ -14,10 +14,10 @@ class PageTwo(tk.Frame):
         
         print(self.student, 'Student')
         
-        label = tk.Label(self, text="2")
+        label = tk.Label(self, text="Καταχώρηση Βαθμών", font='Helvetica 16 bold')
         label.pack(pady=10, padx=10)
 
-        button = ttk.Button(self, text="Επόμενη σελίδα",
+        button = ttk.Button(self, text="Προβολή Βαθμών Φοιτητή",
                             command=lambda: controller.go_to_third_page()) #acts as a onClick event
         button.pack(pady=10, padx=10)
 
@@ -94,7 +94,7 @@ class PageTwo(tk.Frame):
         self.grade_entry = ttk.Entry(self.grades_frame , textvariable=self.grade_value )
         self.grade_entry.pack(pady=10, padx=10, side='left')
 
-        self.grade_button = ttk.Button(self.grades_frame, text="Βαθμολόγηση", style="success", command= lambda : self.controller.grade_student_lecture(self.grade_value))
+        self.grade_button = ttk.Button(self.grades_frame, text="Βαθμολόγηση", style="success", command= lambda: self.test() )
         self.grade_button.pack(pady=10, padx=10, side='left')
         
         self.view_grades = ttk.Button(self.grades_frame, text="Προβολή Βαθμών", style="success", command= lambda : self.controller.grade_student_lecture(self.grade_value))
@@ -120,3 +120,6 @@ class PageTwo(tk.Frame):
 
     def clear_entrys(self, selection):
         self.lecture_entry.config(text=selection[0])
+
+    def test(self):
+        self.controller.insert_std()
