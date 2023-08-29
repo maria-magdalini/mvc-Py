@@ -2,21 +2,24 @@ from view import View, StartPage,PageOne,PageTwo,View_Grades
 from model import Model
 from student import Student
 from lectures_view import Add_Lectures
-
+model= Model()
 class Controller():
     
     def __init__(self):
         self.view = View(self) # pass the Controller and its methods to the View Class
         
+        self.model = Model()
         self.label = 3
-        self.model= Model(self)
+        
+        
+
         
         self.students= self.model.studets
         
         self.lectures = self.model.lectures
-        var = self.model.insert_student()
-        print(var, '333')
-
+        # var = self.model.insert_student()
+        
+    
     def print_val(self,val):
         print(val)
 
@@ -26,7 +29,6 @@ class Controller():
     def go_to_first_page(self):
         self.view.show_frame(PageOne)
 
-    def go_to_second_page(self):
 
         self.view.show_frame(PageTwo)    
          

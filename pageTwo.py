@@ -122,4 +122,4 @@ class PageTwo(tk.Frame):
         self.lecture_entry.config(text=selection[0])
 
     def test(self):
-        self.controller.insert_std()
+        self.controller.model.insert_student()

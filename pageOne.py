@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.font as font
 # from tkinter import ttk 
 import ttkbootstrap as ttk
 from ttkbootstrap.tableview import Tableview
@@ -18,9 +19,12 @@ class PageOne(tk.Frame):
         tk.Frame.__init__(self,parent)
         
         self.entrys_holder = tk.Frame(self)
-        self.entrys_holder.pack(side='top',fill='both', expand=True, pady=30)
+        self.entrys_holder.pack( pady=30 , padx=50)
 
         self.controller= controller
+
+        self.temp_student_serial = None
+
         label = tk.Label(self.entrys_holder, text="Διαχείρηση Φοιτητών", font='Helvetica 16 bold')
         label.pack(pady=10, padx=10)
 
@@ -33,19 +37,20 @@ class PageOne(tk.Frame):
         self.university = tk.StringVar()
         
         self.students = self.controller.students
+        self.selected_students = None
         self._make_all_entrys()
+        
+        
         
         self.selection = self.get_selection
     def get_selection(self):
         self.controller.get_entrys(self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get())
-        # print (selection)
-        # return selection
+     
     
     def switch_frame(self):
-        # self.values = self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get()
-        # self.controller.arr = self.values
+        
         self.controller.get_entrys(self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get())
-        # self.controller.go_to_second_page(self.values)
+        
 
     def _make_all_entrys(self):
         self._make_name_entrys()
@@ -53,6 +58,7 @@ class PageOne(tk.Frame):
         self._make_serial_tag_entry()
         self._make_university_entrys()
         self._makes_students_list(self.students)
+        self._make_crud_buttons()
 
     def _make_name_entrys(self):
         self.name_label = tk.Label(self.entrys_holder, text="Όνομα :")
@@ -103,7 +109,8 @@ class PageOne(tk.Frame):
     def _get_student_(self,e):
             iid= self.students_list.view.selection()
             value = self.students_list.view.item(iid,'values')
-           
+
+    
 
     def _makes_students_list(self,students):
         
@@ -117,8 +124,12 @@ class PageOne(tk.Frame):
             
         def _get_student_(e):
             iid= self.students_list.view.selection()
-            selction = self.students_list.view.item(iid,'values') # values from the selected student in the list
-            self.clear_entrys(selction)
+            global selection
+            selection = self.students_list.view.item(iid,'values') # values from the selected student in the list
+
+            self.temp_student_serial= selection[2]
+            print(self.temp_student_serial)
+            self.clear_entrys(selection)
         
         self.students_list.view.bind('<<TreeviewSelect>>',  _get_student_)
 
@@ -138,4 +149,24 @@ class PageOne(tk.Frame):
         self.serial_tag_entry.insert(0, selection[2])
         # self.get_selection(selection)
 
+
+    def _make_crud_buttons(self):
+        self.crud_buttons_frame = tk.Frame(self)
+        self.crud_buttons_frame.pack(fill='both',side='top', expand= True, pady=10, padx=50)
+
+        self.insert_button = ttk.Button(self.crud_buttons_frame, text='Εισαγωγή Φοιτητή', command=lambda:self.controller.model.insert_student(self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get()))
+        self.insert_button.pack(pady=10, padx=30, side='left')
+
+        self.update_button = ttk.Button(self.crud_buttons_frame, text='Ανανέωση Στοιχείων', command=lambda:self.controller.model.update_student(self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get(),selection[2]))
+        self.update_button.pack(pady=10, padx=30, side='left')
+
+        self.delete_button = ttk.Button(self.crud_buttons_frame, text='Διαγραφή Φοιτητή', command=lambda:None, style='outline danger')
+        # self.delete_button[font] = font.Font(size=14, weight='bold')
+        self.delete_button.pack(pady=10, padx=30, side='left')
+
+        self.clear_entrys_button = ttk.Button(self.crud_buttons_frame, text='Απαλοιφή Πεδίων', command=lambda:None)
+        self.clear_entrys_button.pack(pady=10, padx=30, side='left')
+
+        self.grade_button = ttk.Button(self.crud_buttons_frame, text='Βαθμολόγηση Φοιτητή', command=lambda:None)
+        self.grade_button.pack(pady=10, padx=30, side='left')
 
