@@ -152,7 +152,7 @@ class PageOne(tk.Frame):
 
     def _make_crud_buttons(self):
         self.crud_buttons_frame = tk.Frame(self)
-        self.crud_buttons_frame.pack(fill='both',side='top', expand= True, pady=10, padx=50)
+        self.crud_buttons_frame.pack( pady=10, padx=50)
 
         self.insert_button = ttk.Button(self.crud_buttons_frame, text='Εισαγωγή Φοιτητή', command=lambda:self.controller.model.insert_student(self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get()))
         self.insert_button.pack(pady=10, padx=30, side='left')
@@ -160,7 +160,7 @@ class PageOne(tk.Frame):
         self.update_button = ttk.Button(self.crud_buttons_frame, text='Ανανέωση Στοιχείων', command=lambda:self.controller.model.update_student(self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get(),selection[2]))
         self.update_button.pack(pady=10, padx=30, side='left')
 
-        self.delete_button = ttk.Button(self.crud_buttons_frame, text='Διαγραφή Φοιτητή', command=lambda:None, style='outline danger')
+        self.delete_button = ttk.Button(self.crud_buttons_frame, text='Διαγραφή Φοιτητή', command=lambda:self.controller.model.show_all_students(), style='outline danger')
         # self.delete_button[font] = font.Font(size=14, weight='bold')
         self.delete_button.pack(pady=10, padx=30, side='left')
 

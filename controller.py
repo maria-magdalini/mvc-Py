@@ -2,19 +2,19 @@ from view import View, StartPage,PageOne,PageTwo,View_Grades
 from model import Model
 from student import Student
 from lectures_view import Add_Lectures
-model= Model()
+# model= Model()
 class Controller():
     
     def __init__(self):
         self.view = View(self) # pass the Controller and its methods to the View Class
         
-        self.model = Model()
+        self.model = Model(self)
         self.label = 3
         
         
 
         
-        self.students= self.model.studets
+        self.students= self.model.show_all_students()
         
         self.lectures = self.model.lectures
         # var = self.model.insert_student()
