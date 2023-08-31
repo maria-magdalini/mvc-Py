@@ -1,3 +1,4 @@
+import tkinter as tk
 from tkinter import messagebox
 import sqlite3
 
@@ -29,22 +30,29 @@ class Model:
     def insert_student(self, *students_data):
         self.cur.execute("SELECT COUNT(*) FROM students WHERE serial=?",(students_data[2],))
         res =  self.cur.fetchall()             
-        self.conn.commit() 
+        
 
-        if res[0][0] > 1 :
+        if res[0][0] >= 1 :
             return messagebox.showerror('Error' , 'Ο Βαθμός του μαθήματος πρένει να είναι απο 0 έως 10.')
         else:
             pass
-        # if res <0 :
-        #     print(0)
-        # else:
+            self.cur.execute("INSERT INTO students VALUES(NULL,?,?,?,?)", (students_data[0], students_data[1], students_data[2],students_data[3]))
+            self.conn.commit()
+            self.reload_table_data(students_data[4])
+
         print(res[0][0])
         
-        
-        self.cur.execute("INSERT INTO students VALUES(NULL,?,?,?,?)", (students_data[0], students_data[1], students_data[2],students_data[3]))
+    def reload_table_data(self,treeview):
+        self.cur.execute("SELECT name,lastname,serial,university FROM students")
+        res = self.cur.fetchall()
+        print(res)
+        treeview.delete_rows()
+        for entry in res:
+            treeview.insert_row(tk.END, entry) #insert the data 
+        treeview.load_table_data()# display the data
+        return
 
-        # self.conn.commit()
-        # print(row)
+       
         
     def show_all_students(self):
         self.cur.execute("SELECT name,lastname,serial,university FROM students")
@@ -52,13 +60,13 @@ class Model:
         return res
         
     def show_all_lectures(self):
-        res = self.cur.execute("SELECT * FROM lectures")
-        self.conn.commit()
+        self.cur.execute("SELECT * FROM lectures")
+        res = self.cur.fetchall()
         return res
     
     def show_all_grades(self):
-        res = self.cur.execute("SELECT * FROM grades")
-        self.conn.commit()
+        self.cur.execute("SELECT * FROM grades")
+        res = self.cur.fetchall() 
         return res
 
     def update_student(self,*students_data):
