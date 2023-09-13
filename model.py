@@ -18,13 +18,12 @@ class Model:
         self.conn = sqlite3.connect("Students.db")
         self.cur = self.conn.cursor()
         self.cur.execute("CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY , name TEXT, lastname TEXT, serial INTEGER, university TEXT)")
-        self.cur.execute("CREATE TABLE IF NOT EXISTS lectures (id INTEGER PRIMARY KEY , lecture_ame TEXT, semester INTEGER, lecture_id INTEGER)")
+        self.cur.execute("CREATE TABLE IF NOT EXISTS lectures (id INTEGER PRIMARY KEY , lecture_ame TEXT, semester INTEGER, lecture_id INTEGER, field TEXT)")
         self.cur.execute("CREATE TABLE IF NOT EXISTS grades (id INTEGER PRIMARY KEY , lecture_id TEXT, student_id, grade INTEGER )")
         
     def count(self,serial):
-        self.cur.execute("SELECT COUNT(*) FROM students WHERE serial=?",(int(serial),))
-        
-        row = self.conn.commit()
+        self.cur.execute("SELECT COUNT(*) FROM students WHERE serial=?",(serial,))
+        row = self.cur.fetchall()
         print(row)
 
     def insert_student(self, *students_data):
@@ -69,21 +68,43 @@ class Model:
         res = self.cur.fetchall() 
         return res
 
+    def validate_student(self, serial):
+        result = self.count(serial)
+
     def update_student(self,*students_data):
-        # self.cur.execute("UPDATE students SET VALUES(NULL,?,?,?,?)",(students_data[0], students_data[1], students_data[2],students_data[3]))
-        # self.conn.commit()
-        student_rows =  self.cur.execute("SELECT * FROM students WHERE serial=?",(students_data[4],))
+        
+        self.cur.execute("UPDATE students SET name=?, lastname=?, serial=?, university=? WHERE serial=?",(students_data[0], students_data[1], students_data[2],students_data[3],students_data[5]))
         self.conn.commit()
-        print(student_rows)
+        self.reload_table_data(students_data[4])
+        
 
         print(students_data)
 
-    def delete_student(self,*students_data):
-        self.conn.execute("DELETE * FROM students WHERE serrial=?",(students_data[2],))
+    def delete_student(self,student_id, treeview):
+        self.conn.execute("DELETE FROM students WHERE serial=?",(student_id,))
         self.conn.commit()
-        pass
+        self.reload_table_data(treeview)
+        
+    def fetch_lectures(self):
+        self.cur.execute("SELECT * FROM lectures")
+        # print(self.cur.fetchall())
+        return self.cur.fetchall()
+        
+    def insert_lecture(self,*lecture):
+        self.cur.execute("INSERT INTO lectures VALUES(NULL,?,?,?,?)",(lecture[0], lecture[1],lecture[2],lecture[3]))
+        self.conn.commit()
+        self.fetch_lectures()
     
+    def delete_lecture(self,lecture_id):
+        self.cur.execute("DELETE FROM lecture WHERE lecture_id=?",(lecture_id))
+        self.conn.commit()
+        self.fetch_lectures()
+
+    def update_lecture(self):
+        pass
+        
     # def insert_student(self):
     #     print('Inserting student')
 
 # Model().cur.execute("INSERT INTO students VALUES(NULL,?,?,?,?)", ('Nikos', 'Louzis', 4465 , 'Architecture') )
+# Model(None).fetch_lectures()

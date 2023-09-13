@@ -13,7 +13,7 @@ class View(tk.Tk):
         
     def mainFrame(self):
         self.container=tk.Frame(self, bg='red')
-        self.container.pack(side='top')
+        self.container.pack(side='top',expand=False)
 
         self.container.grid_rowconfigure(0,weight=1)
         self.container.grid_columnconfigure(0,weight=1)

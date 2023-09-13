@@ -29,8 +29,6 @@ class Controller():
     def go_to_first_page(self):
         self.view.show_frame(PageOne)
 
-
-        self.view.show_frame(PageTwo)    
          
     def go_to_third_page(self):
         self.view.show_frame(View_Grades)

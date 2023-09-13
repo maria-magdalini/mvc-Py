@@ -19,7 +19,7 @@ class PageOne(tk.Frame):
         tk.Frame.__init__(self,parent)
         
         self.entrys_holder = tk.Frame(self)
-        self.entrys_holder.pack( pady=30 , padx=50)
+        self.entrys_holder.pack( pady=30 , padx=50,expand=True, fill='both')
 
         self.controller= controller
 
@@ -149,7 +149,15 @@ class PageOne(tk.Frame):
         self.serial_tag_entry.insert(0, selection[2])
         # self.get_selection(selection)
 
-
+    def wipe_fields(self):
+        self.name_entry.delete(0,tk.END)
+        self.last_name_entry.delete(0,tk.END)
+        self.serial_tag_entry.delete(0,tk.END)
+        
+     
+        self.uni_entry.config(text='')
+        self.uni_value.set(None)
+        
     def _make_crud_buttons(self):
         self.crud_buttons_frame = tk.Frame(self)
         self.crud_buttons_frame.pack( pady=10, padx=50)
@@ -157,14 +165,14 @@ class PageOne(tk.Frame):
         self.insert_button = ttk.Button(self.crud_buttons_frame, text='Εισαγωγή Φοιτητή', command=lambda:self.controller.model.insert_student(self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get(), self.students_list))
         self.insert_button.pack(pady=10, padx=30, side='left')
 
-        self.update_button = ttk.Button(self.crud_buttons_frame, text='Ανανέωση Στοιχείων', command=lambda:self.controller.model.update_student(self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get(),selection[2]))
+        self.update_button = ttk.Button(self.crud_buttons_frame, text='Ανανέωση Στοιχείων', command=lambda:self.controller.model.update_student(self.name.get(), self.last_name.get(), self.serial_tag.get(), self.uni_value.get(), self.students_list,selection[2]))
         self.update_button.pack(pady=10, padx=30, side='left')
 
-        self.delete_button = ttk.Button(self.crud_buttons_frame, text='Διαγραφή Φοιτητή', command=lambda:self.controller.model.show_all_students(), style='outline danger')
+        self.delete_button = ttk.Button(self.crud_buttons_frame, text='Διαγραφή Φοιτητή', command=lambda:self.controller.model.delete_student(self.serial_tag.get(), self.students_list), style='outline danger')
         # self.delete_button[font] = font.Font(size=14, weight='bold')
         self.delete_button.pack(pady=10, padx=30, side='left')
 
-        self.clear_entrys_button = ttk.Button(self.crud_buttons_frame, text='Απαλοιφή Πεδίων', command=lambda:None)
+        self.clear_entrys_button = ttk.Button(self.crud_buttons_frame, text='Απαλοιφή Πεδίων', command=lambda: self.wipe_fields())
         self.clear_entrys_button.pack(pady=10, padx=30, side='left')
 
         self.grade_button = ttk.Button(self.crud_buttons_frame, text='Βαθμολόγηση Φοιτητή', command=lambda:None)
